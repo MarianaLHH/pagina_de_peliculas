@@ -1,0 +1,9 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+#busquedaInput {
+  width: 300px;
+  padding: 8px;
+  margin-bottom: 10px;
+}

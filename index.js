@@ -92,7 +92,7 @@ const mostrarStrings = (strings) => {
   });
 };
 
-//....................................... Top 3 películas con mejor rating
+//....................................... TOP 3 PELICULAS CON MEJOR RATING
 const top3 = () => {
   contendor.innerHTML = "";
   peliculas.sort((a, b) => {
@@ -108,10 +108,11 @@ const top3 = () => {
   mostrarPeliculas(top_3);
 };
 
-//....................................... Ordenar por Fecha de lanzamiento
+//......................................ORDENAR POR FECHA DE LANZAMIENTO..................
 // Convertir  "Released": "01 Feb 2019", a Date (año.mes,dia)
 
 // Se convirito en tres elemetos separados con split
+
 const arrayFechaString = peliculas.Released;
 
 const stringToDate = (cadenaFecha) => {
@@ -123,26 +124,25 @@ const stringToDate = (cadenaFecha) => {
   const mesTexto = parteFecha[1];
   const year = parseInt(parteFecha[2], 10);
   const meses = [
-    "Ene",
+    "Jan",
     "Feb",
     "Mar",
-    "Abr",
+    "Apr",
     "May",
     "Jun",
     "Jul",
-    "Ago",
+    "Aug",
     "Sep",
     "Oct",
     "Nov",
-    "Dic",
+    "Dec",
   ];
   const mes = meses.indexOf(mesTexto); //Para el indice del mes
 
-  const arrayFechaDate = arrayFechaString.map((cadenaFecha) =>
+  /*const arrayFechaDate = arrayFechaString.map((cadenaFecha) =>
     stringToDate(cadenaFecha)
-  );
-  console.log(arrayFechaDate);
-
+  ); */
+  //console.log(arrayFechaDate);
   return new Date(year, mes, dia);
 };
 
@@ -151,19 +151,18 @@ const ordenFecha = () => {
   contendor.innerHTML = "";
 
   peliculas.sort((a, b) => {
-    if (a.Released.toLowerCase() > b.Released.toLowerCase()) {
-      return 1;
-    } else if (b.Released.toLowerCase() > a.Released.toLowerCase()) {
+    const fechaA = stringToDate(a.Released);
+    const fechaB = stringToDate(b.Released);
+    if (fechaA < fechaB) {
       return -1;
+    } else if (fechaB < fechaA) {
+      return 1;
     } else {
       return 0;
     }
   });
 
   mostrarPeliculas(peliculas);
-  peliculas.forEach((pelicula) => {
-    console.log("imprimir", pelicula.Released);
-  });
 };
 
 //...............................................ORDENAR POR TITULO ALFABETICAMENTE......................................................
@@ -186,6 +185,33 @@ const ordeAlfabetico = () => {
     console.log("imprimir", pelicula.Title);
   });
 };
+//........................................BARRA DE BUSQUEDA......................................
+//............................................AÑO
+
+//...........................................TITULO......................................................
+const searchInput = document.getElementById("searchInput"); //Capturandoo el input del html
+const resultList = document.getElementById("resultList"); //capturando el input del html
+//Funcion
+const handleSearch = () => {
+  const searchIterm = searchInput.value.toLowerCase();
+  //
+  const filteredPeliculas = peliculas.filter((pelicula) =>
+    pelicula.Title.toLowerCase().startsWith(searchIterm)
+  );
+
+  resultList.innerHTML = "";
+
+  filteredPeliculas.forEach((Title) => {
+    const li = document.createElement("li");
+    li.textContent = Title;
+    resultList.appendChild(li);
+  });
+};
+//Invocandola
+searchInput.addEventListener("input", handleSearch);
+
+//.............Content Rating
+//.............FECHA DE LANZAMIENTO
 
 //BOTONES
 
@@ -193,7 +219,7 @@ const top3Button = document.getElementById("top3");
 top3Button.addEventListener("click", top3);
 
 const fechaLanzButton = document.getElementById("orden_f_lanz");
-fechaLanzButton.addEventListener("click", stringToDate);
+fechaLanzButton.addEventListener("click", ordenFecha);
 
 const ordenAlfButton = document.getElementById("orden_alf");
 ordenAlfButton.addEventListener("click", ordeAlfabetico);
