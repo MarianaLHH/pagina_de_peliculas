@@ -35,6 +35,10 @@ const mostrarPeliculas = (peliculas) => {
     tituloP.textContent = pelicula.Title;
     peliculaDiv.appendChild(tituloP);
 
+    const ratedP = document.createElement("p");
+    ratedP.textContent = pelicula.Rated;
+    peliculaDiv.appendChild(ratedP);
+
     /*const clasContP = document.createElement("p");
     clasContP.textContent = pelicula.Ratings;
     peliculaDiv.appendChild(clasContP);
@@ -42,7 +46,7 @@ const mostrarPeliculas = (peliculas) => {
     // Creando un super Div para Rating(.json)
     const div_rate = document.createElement("div");
 
-    //INICIO......... CONVERTIR RATING A ETIQUETAS P
+    //INICIO......................................... CONVERTIR RATING A ETIQUETAS P
     const ratingdivs = pelicula.Ratings.map((rating) => {
       const ratingdiv = document.createElement("div"); //Creando un div para meter los otros div co  etiqueta p
 
@@ -61,7 +65,7 @@ const mostrarPeliculas = (peliculas) => {
 
     peliculaDiv.appendChild(div_rate);
 
-    // .......................FIN
+    // ............................................................FIN
     const lanzP = document.createElement("p");
     lanzP.textContent = pelicula.Released;
     peliculaDiv.appendChild(lanzP);
@@ -76,6 +80,7 @@ const mostrarPeliculas = (peliculas) => {
     contendor.appendChild(element);
   });
 };
+
 const mostrarStrings = (strings) => {
   //Borrar contenido de contenedor
   contendor.innerHTML = "";
@@ -139,9 +144,6 @@ const stringToDate = (cadenaFecha) => {
   ];
   const mes = meses.indexOf(mesTexto); //Para el indice del mes
 
-  /*const arrayFechaDate = arrayFechaString.map((cadenaFecha) =>
-    stringToDate(cadenaFecha)
-  ); */
   //console.log(arrayFechaDate);
   return new Date(year, mes, dia);
 };
@@ -185,9 +187,27 @@ const ordeAlfabetico = () => {
     console.log("imprimir", pelicula.Title);
   });
 };
-//........................................BARRA DE BUSQUEDA.........................................
+//..............................................................BARRA DE BUSQUEDA.........................................
 //............................................AÑO
+const searchInput1 = document.getElementById("searchInput1");
+const resultList1 = document.getElementById("resultList1");
 
+const yearSearch = () => {
+  const searchIterm1 = searchInput1.value;
+  const filteredYear = peliculas.filter((pelicula) =>
+    pelicula.Year.toString().startsWith(searchIterm1)
+  );
+  resultList1.innerHTML = "";
+
+  /*filteredYear.forEach((Year) => {
+    li = document.createElement("li");
+    li.textContent = Year;
+    resultList1.appendChild(li);
+  });
+  */
+  mostrarPeliculas(filteredYear);
+};
+searchInput1.addEventListener("input", yearSearch);
 //...........................................TITULO......................................................
 const searchInput = document.getElementById("searchInput"); //Capturandoo el input del html
 const resultList = document.getElementById("resultList"); //capturando el input del html
@@ -201,17 +221,60 @@ const handleSearch = () => {
 
   resultList.innerHTML = "";
 
-  filteredPeliculas.forEach((Title) => {
-    const li = document.createElement("li");
-    li.textContent = Title;
+  /*  filteredPeliculas.forEach((Title) => {
+    li = document.createElement("li");
+    li.textContent = Title.Title;
     resultList.appendChild(li);
   });
+*/
+  mostrarPeliculas(filteredPeliculas);
 };
 //Invocandola
 searchInput.addEventListener("input", handleSearch);
 
-//.............Content Rating
-//.............FECHA DE LANZAMIENTO
+//.......................................Content Rating................................................................
+const searchInput2 = document.getElementById("searchInput2"); //Capturandoo el input del html
+const resultList2 = document.getElementById("resultList2"); //capturando el input del html
+//Funcion
+const ratedSearch = () => {
+  const searchIterm2 = searchInput2.value.toLowerCase();
+  //
+  const filteredRated = peliculas.filter((pelicula) =>
+    pelicula.Rated.toLowerCase().startsWith(searchIterm2)
+  );
+
+  resultList.innerHTML = "";
+  /*
+  filteredRated.forEach((Rated) => {
+    li = document.createElement("li");
+    li.textContent = Rated.Year;
+    resultList.appendChild(li);
+  });
+  */
+  mostrarPeliculas(filteredRated);
+};
+//Invocandola
+searchInput2.addEventListener("input", ratedSearch);
+
+//......................FECHA DE LANZAMIENTO
+const searchInput3 = document.getElementById("searchInput3"); //Capturandoo el input del html
+const resultList3 = document.getElementById("resultList3");
+const releasedSearch = () => {
+  const searchIterm3 = searchInput3.value.toLowerCase();
+  const filteredReleased = peliculas.filter((pelicula) =>
+    pelicula.Released.toLowerCase().startsWith(searchIterm3)
+  );
+  resultList1.innerHTML = "";
+  /*
+  filteredReleased.forEach((Released) => {
+    li = document.createElement("li");
+    li.textContent = Released;
+    resultList1.appendChild(li);
+  });
+  */
+  mostrarPeliculas(filteredReleased);
+};
+searchInput3.addEventListener("input", releasedSearch);
 
 //BOTONES
 
